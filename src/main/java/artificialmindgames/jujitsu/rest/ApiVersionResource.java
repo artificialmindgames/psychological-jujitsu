@@ -15,8 +15,8 @@ public class ApiVersionResource {
      * @return String that will be returned as a text/plain response.
      */
     @GET
-    @Produces(MediaType.TEXT_PLAIN)
-    public String getIt() {
-        return "Psychological Jujitsu API published 2013-12-21";
+    @Produces(MediaType.APPLICATION_JSON)
+    public ApiVersion getIt() {
+        return new ApiVersion("Psychological Jujitsu API", "2013-12-21");
     }
 }
