@@ -63,15 +63,9 @@ The game server uses basic HTTP authentication and always issues HTTP POST reque
 }
 ```
 
-The first request will have a single element in the rounds array -- this is the first and current round. The turns array will be empty, since no turns have been played yet. The HTTP response body is simply in this form:
+The first request will have a single element in the rounds array -- this is the first and current round. The turns array will be empty, since no turns have been played yet.
 
-```javascript
-{
-  "bid": 1                // an integer representing the bid card to play (can be null only if gameEnded is true).
-}
-```
-
-If a valid response is not received, or the response is not a legal move, then a card is played randomly. The server will report this in the next request using myResponseLegal and opponentResponseLegal. If a player runs out of thinking time for the match, all their remaining bids will be random, and they will only receive the game end request. Both players are made aware of this happening, because the time remaining will be zero. By disclosing this information, a player is not at a disadvantage for having an opponent run out of time, since they can adjust their strategy.
+The HTTP response body is simply the number of the bid card to play, with mime type 'text/plain'. If a valid response is not received, or the response is not a legal move, then a card is played randomly. The server will report this in the next request using myResponseLegal and opponentResponseLegal. If a player runs out of thinking time for the match, all their remaining bids will be random, and they will only receive the game end request. Both players are made aware of this happening, because the time remaining will be zero. By disclosing this information, a player is not at a disadvantage for having an opponent run out of time, since they can adjust their strategy. The response value is ignored if gameEnded is true.
 
 A single game server will only ever expect a player bot to play one game at a time.
 
