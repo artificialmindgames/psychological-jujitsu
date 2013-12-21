@@ -37,7 +37,7 @@ A game server is responsible for running matches between players, as well as jud
 
 The game server communicates with the player bots via a simple REST api, using JSON over HTTP. In terms of HTTP, it is important to be clear that the player bots are in fact acting as servers; the game server calls the player bots rather than the other way around.
 
-The game server uses basic HTTP authentication and always issues HTTP POST requests to a specified url in the following form:
+The game server always issues HTTP POST requests to a specified url in the following form:
 
 ```javascript
 {
@@ -59,7 +59,7 @@ The game server uses basic HTTP authentication and always issues HTTP POST reque
       "myPointsGained": 1,         // the value of victory cards won by your bot (0 if none) on this turn
       "opponentPointsGained": 1,  // as above, for your opponent
       "myResponseLegal": 1,       // true if the server accepted the response from your player bot that turn
-      "opponentResponseLegal": 1 // as above, for your opponenet
+      "opponentResponseLegal": 1 // as above, for your opponent
     }]
   }],
   "myPointsTotal": 0,            // total points for the match so far
@@ -77,3 +77,8 @@ A single game server will only ever expect a player bot to play one game at a ti
 Note that the history of the match is provided in the request so that bots can be stateless and still use previous information to influence strategy.
 
 Some information in the game request message is redundant, but is provided for convenience so that a valid starter bot can be as simple as possible.
+
+Security
+--------
+
+Security is not yet implemented, but will use OAuth 1.
