@@ -1,4 +1,4 @@
-package psychological.jujitsu.rest;
+package artificialmindgames.jujitsu.rest;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
