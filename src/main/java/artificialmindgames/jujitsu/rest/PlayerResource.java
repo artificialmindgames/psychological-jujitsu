@@ -1,5 +1,8 @@
 package artificialmindgames.jujitsu.rest;
 
+import java.util.List;
+import java.util.Random;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.Consumes;
@@ -12,6 +15,8 @@ import javax.ws.rs.core.MediaType;
 @Path("player")
 public class PlayerResource {
 
+	Random random = new Random();
+	
     /**
      * Establish the version of the REST api, for diagnostic purposes only.
      */
@@ -27,7 +32,13 @@ public class PlayerResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.TEXT_PLAIN)
     public String play(@Valid @NotNull PlayState playState) {
-    	return Integer.toString(0);
+    	List<Integer> cards = playState.getCurrentRound().getMyCardsRemaining();
+    	if (cards.isEmpty()) {
+    		return Integer.toString(0);
+    	}
+    	else {
+    		return cards.get(random.nextInt(cards.size())).toString();
+    	}
     }
     
 }

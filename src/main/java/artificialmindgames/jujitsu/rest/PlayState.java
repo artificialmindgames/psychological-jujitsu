@@ -57,6 +57,8 @@ public class PlayState {
 		return gameEnded;
 	}
 
-	
+	public RoundState getCurrentRound() {
+		return rounds.get(rounds.size()-1);
+	}
 
 }
