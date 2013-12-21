@@ -33,56 +33,30 @@ public class PlayState {
 		return match;
 	}
 
-	public void setMatch(List<Integer> match) {
-		this.match = match;
-	}
-
 	public Integer getMyTimeRemainingMs() {
 		return myTimeRemainingMs;
-	}
-
-	public void setMyTimeRemainingMs(Integer myTimeRemainingMs) {
-		this.myTimeRemainingMs = myTimeRemainingMs;
 	}
 
 	public Integer getOpponentTimeRemainingMs() {
 		return opponentTimeRemainingMs;
 	}
 
-	public void setOpponentTimeRemainingMs(Integer opponentTimeRemainingMs) {
-		this.opponentTimeRemainingMs = opponentTimeRemainingMs;
-	}
-
 	public List<RoundState> getRounds() {
 		return rounds;
-	}
-
-	public void setRounds(List<RoundState> rounds) {
-		this.rounds = rounds;
 	}
 
 	public int getMyPointsTotal() {
 		return myPointsTotal;
 	}
 
-	public void setMyPointsTotal(int myPointsTotal) {
-		this.myPointsTotal = myPointsTotal;
-	}
-
 	public int getOpponentPointsTotal() {
 		return opponentPointsTotal;
-	}
-
-	public void setOpponentPointsTotal(int opponentPointsTotal) {
-		this.opponentPointsTotal = opponentPointsTotal;
 	}
 
 	public boolean isGameEnded() {
 		return gameEnded;
 	}
 
-	public void setGameEnded(boolean gameEnded) {
-		this.gameEnded = gameEnded;
-	}
+	
 
 }

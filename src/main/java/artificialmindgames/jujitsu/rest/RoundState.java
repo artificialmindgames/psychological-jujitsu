@@ -3,41 +3,83 @@ package artificialmindgames.jujitsu.rest;
 import java.util.List;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 public class RoundState {
 
+	@Min(value=3)
+	private int highestCardValue;
+	
 	@NotNull
 	private List<Integer> lot;
 	
 	private Integer nextVictoryCard;
 	
+	@NotNull
+	private List<Integer> myCardsPlayed;
+	
+	@NotNull
+	private List<Integer> opponentCardsPlayed;
+	
+	@NotNull
+	private List<Integer> myCardsRemaining;
+	
+	@NotNull
+	private List<Integer> opponentCardsRemaining;
+
 	@Valid
 	@NotNull
 	private List<TurnState> turns;
 
-	public List<Integer> getLot() {
-		return lot;
+	public int getHighestCardValue() {
+		return highestCardValue;
 	}
 
-	public void setLot(List<Integer> lot) {
-		this.lot = lot;
+	public List<Integer> getLot() {
+		return lot;
 	}
 
 	public Integer getNextVictoryCard() {
 		return nextVictoryCard;
 	}
 
-	public void setNextVictoryCard(Integer nextVictoryCard) {
-		this.nextVictoryCard = nextVictoryCard;
+	public List<Integer> getMyCardsPlayed() {
+		return myCardsPlayed;
+	}
+
+	public List<Integer> getOpponentCardsPlayed() {
+		return opponentCardsPlayed;
+	}
+
+	public List<Integer> getMyCardsRemaining() {
+		return myCardsRemaining;
+	}
+
+	public List<Integer> getOpponentCardsRemaining() {
+		return opponentCardsRemaining;
 	}
 
 	public List<TurnState> getTurns() {
 		return turns;
 	}
 
-	public void setTurns(List<TurnState> turns) {
-		this.turns = turns;
+	public int getMyPointsThisRound() {
+		int points = 0;
+		for (TurnState turn : turns) {
+			points += turn.getMyPointsGained();
+		}
+		
+		return points;
+	}
+	
+	public int getOpponentPointsThisRound() {
+		int points = 0;
+		for (TurnState turn : turns) {
+			points += turn.getOpponentPointsGained();
+		}
+		
+		return points;
 	}
 
 }

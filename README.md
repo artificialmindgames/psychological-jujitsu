@@ -41,12 +41,17 @@ The game server uses basic HTTP authentication and always issues HTTP POST reque
 
 ```javascript
 {
-  "match": [5,6,7,8],       // an array of integers describing the rounds planned for the match
+  "match": [5,6,7,8],       // an array of integers describing the number of rounds and highest card values
   "myTimeRemainingMs": null, // thinking time in milliseconds player has left this match; null if unlimited.
   "opponentTimeRemainingMs": null, // as above, for your opponent
   "rounds": [{             // an array describing each round so far. The last array element is the current round.
+  	"highestCardValue": 5  // the highest card value this round (N in round description above)
     "lot": [4],             // an array of integers, the victory cards currently in the lot
-    "nextVictoryCard": 1,   // an integer; value of the next victory card on the draw pile, null if all cards drawn 
+    "nextVictoryCard": 1,   // an integer; value of the next victory card on the draw pile, null if all cards drawn
+    "myCardsPlayed": [],     // bidding cards already used
+    "opponentCardsPlayed": [], // as above, for your opponent
+    "myCardsRemaining": [1,2,3,4,5],       // bidding cards still available for play this round
+    "opponentCardsRemaining": [1,2,3,4,5], // as above, for your opponent
     "turns": [{            // an array describing previous turns.
       "drawnVictoryCard": 1,      // the victory card drawn into the lot
       "myBid": 1,                 // the bid card played by the player
@@ -69,4 +74,6 @@ The HTTP response body is simply the number of the bid card to play, with mime t
 
 A single game server will only ever expect a player bot to play one game at a time.
 
-Note that the history of the match is provided in the request so that bots can be stateless and still use previous information to influence strategy. The points information is redundant, but is provided for convenience to the player bot.
+Note that the history of the match is provided in the request so that bots can be stateless and still use previous information to influence strategy.
+
+Some information in the game request message is redundant, but is provided for convenience so that a valid starter bot can be as simple as possible.

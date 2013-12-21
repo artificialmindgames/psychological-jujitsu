@@ -27,56 +27,28 @@ public class TurnState {
 		return drawnVictoryCard;
 	}
 
-	public void setDrawnVictoryCard(int drawnVictoryCard) {
-		this.drawnVictoryCard = drawnVictoryCard;
-	}
-
 	public int getMyBid() {
 		return myBid;
-	}
-
-	public void setMyBid(int myBid) {
-		this.myBid = myBid;
 	}
 
 	public int getOpponentBid() {
 		return opponentBid;
 	}
 
-	public void setOpponentBid(int opponentBid) {
-		this.opponentBid = opponentBid;
-	}
-
 	public int getMyPointsGained() {
 		return myPointsGained;
-	}
-
-	public void setMyPointsGained(int myPointsGained) {
-		this.myPointsGained = myPointsGained;
 	}
 
 	public int getOpponentPointsGained() {
 		return opponentPointsGained;
 	}
 
-	public void setOpponentPointsGained(int opponentPointsGained) {
-		this.opponentPointsGained = opponentPointsGained;
-	}
-
 	public boolean isMyResponseLegal() {
 		return myResponseLegal;
 	}
 
-	public void setMyResponseLegal(boolean myResponseLegal) {
-		this.myResponseLegal = myResponseLegal;
-	}
-
 	public boolean isOpponentResponseLegal() {
 		return opponentResponseLegal;
-	}
-
-	public void setOpponentResponseLegal(boolean opponentResponseLegal) {
-		this.opponentResponseLegal = opponentResponseLegal;
 	}
 	
 }
