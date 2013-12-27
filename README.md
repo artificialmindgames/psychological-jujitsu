@@ -44,12 +44,12 @@ The value of the victory cards won by each player are added up to determine the 
 Player bot API
 --------------
 
-A game server is responsible for running matches between players, as well as judging and recording match outcomes.
+A game broker is responsible for running matches between players, as well as judging and recording match outcomes.
 
-The game server communicates with the player bots via a simple REST api, using JSON over HTTP. In terms of HTTP, it is important to be clear that the player bots are in
-fact acting as servers; the game server calls the player bots rather than the other way around.
+The game broker communicates with the player bots via a simple REST api, using JSON over HTTP. In terms of HTTP, it is important to be clear that the player bots are in
+fact acting as servers; the game broker calls the player bots rather than the other way around.
 
-The game server always issues HTTP POST requests to a specified url in the following form:
+The game broker always issues HTTP POST requests to a specified url in the following form:
 
 ```javascript
 {
@@ -67,7 +67,7 @@ The game server always issues HTTP POST requests to a specified url in the follo
   "opponentCardsRemaining": [1,2,4,5], // as above, for your opponent
   "drawPile": [1,3,5],                 // victory cards remaining in the draw pile, in value order (NOT play order) 
   
-  "previousTurns": [{                     // provides information on the previous turns in the current round
+  "previousTurns": [{                     // provides information on previous turns (see below for details) 
      "myBid": 2,                          // bidding card played that turn
      "opponentBid": 3,                    // as above, for your opponent
      "drawnVictoryCard": 2,               // the victory card drawn into the lot that turn
@@ -79,21 +79,24 @@ The game server always issues HTTP POST requests to a specified url in the follo
 }
 ```
 
-The first request will begin with currentRound 1 and an empty previousTurns array.
-
-The HTTP response body is simply the number of the bid card to play, with mime type 'text/plain'. If a valid response is not received, or the response
-is not a legal move, then a card is played randomly. The server will report this in the next request using myResponseLegal and opponentResponseLegal.
-If a player runs out of thinking time for the match, all their remaining bids will be random, and they will only receive the game end request. Both players
-are made aware of this happening, because the time remaining will be zero. By disclosing this information, a player is not at a disadvantage for having an
-opponent run out of time, since they can adjust their strategy. The response value is ignored if gameEnded is true.
-
-A single game server will only ever expect a player bot to play one game at a time.
+The first request will begin with currentRound 1 and an empty previousTurns array. This is the only time that the previousTurns array
+will be empty. On the first turn of each subsequent round, previousTurns will show the turn information for the previous round rather
+than be empty, so that the player knows how the last round ended. Otherwise, previousTurns shows information for the current round only.
 
 Note that all the information on the current round is provided. This is intended to represent what the player would be able to see if
 cards were arranged on the table face upwards in order of play, a game clock and scoreboard was provided, etc. However, it is up to the bot
 to have a 'memory' or 'learn' from previous rounds.
 
 Some information in the game request message is redundant, but is provided for convenience so that a valid starter bot can be extremely simple.
+
+The HTTP response body is simply the number of the bid card to play, with mime type 'text/plain'. If a valid response is not received, or the response
+is not a legal move, then a card is played randomly. The server will report this in the next request using myResponseLegal and opponentResponseLegal.
+If a player runs out of thinking time for the match, all their remaining bids will be random, and they will only receive the game end request. Both players
+are made aware of this happening, because the time remaining will be zero. By disclosing this information, a player is not at a disadvantage for having an
+opponent run out of time, since they can adjust their strategy. The response value is ignored if gameEnded is true; the game broker always send one last
+request to the players to show them how the game ended, although no move is necessary.
+
+A single game broker will only ever expect a player bot to play one game at a time.
 
 Security
 --------
