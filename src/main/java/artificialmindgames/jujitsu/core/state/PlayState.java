@@ -1,4 +1,4 @@
-package artificialmindgames.jujitsu.rest;
+package artificialmindgames.jujitsu.core.state;
 
 import java.util.List;
 

@@ -12,6 +12,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import artificialmindgames.jujitsu.core.state.PlayState;
+
 @Path("player")
 public class PlayerResource {
 

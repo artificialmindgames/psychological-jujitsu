@@ -1,4 +1,4 @@
-package artificialmindgames.jujitsu.rest;
+package artificialmindgames.jujitsu.core.state;
 
 import java.util.List;
 
@@ -82,4 +82,10 @@ public class RoundState {
 		return points;
 	}
 
+	public TurnState getLastTurn() {
+		if (turns.isEmpty()) {
+			return null;
+		}
+		return turns.get(turns.size()-1);
+	}
 }

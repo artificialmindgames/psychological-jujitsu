@@ -30,8 +30,9 @@ public class JujitsuMain {
     	URI baseUri = UriBuilder.fromUri("http://localhost/").port(9998).build();
         ResourceConfig config = new ResourceConfig(PlayerResource.class);
         config.property(ServerProperties.BV_SEND_ERROR_IN_RESPONSE, true);
+
         HttpServer server = GrizzlyHttpServerFactory.createHttpServer(baseUri, config);
-    	
+
         server.start();
         Thread.currentThread().join();
     }
