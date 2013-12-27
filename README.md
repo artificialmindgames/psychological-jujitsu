@@ -58,24 +58,24 @@ The game server always issues HTTP POST requests to a specified url in the follo
   "opponentTimeRemainingMs": null, // as above, for your opponent
   "myPointsTotal": 0,              // total victory points you have earnt in the match so far
   "opponentPointsTotal": 2,        // as above, for your opponent
-  "currentRound": 1                // the number of the round in the match, beginning with 1
-  "gameEnded": false               // true if the game has ended (server reserves right to end match early)
+  "currentRound": 1,               // the number of the round in the match, beginning with 1
+  "gameEnded": false,              // true if the game has ended (server reserves right to end match early)
   
   "lot": [4],                          // an array of the victory card values currently being bid for
   "nextVictoryCard": 1,                // an integer; value of the next victory card on the draw pile; null on last turn
   "myCardsRemaining": [1,3,4,5],       // bidding cards still available for play this round
   "opponentCardsRemaining": [1,2,4,5], // as above, for your opponent
-  "drawPile": [1,3,5]                  // victory cards remaining in the draw pile, in value order (NOT play order) 
+  "drawPile": [1,3,5],                 // victory cards remaining in the draw pile, in value order (NOT play order) 
   
   "previousTurns": [{                     // provides information on the previous turns in the current round
      "myBid": 2,                          // bidding card played that turn
-     "opponentsBid": 3,                   // as above, for your opponent
+     "opponentBid": 3,                    // as above, for your opponent
      "drawnVictoryCard": 2,               // the victory card drawn into the lot that turn
-     "myCardsWon": []                     // an array of all victory cards won by you from the lot on that turn
-     "opponentCardsWon": [2]              // as above, for your opponent
+     "myCardsWon": [],                    // an array of all victory cards won by you from the lot on that turn
+     "opponentCardsWon": [2],             // as above, for your opponent
      "myResponseLegal": true,             // true if the server accepted the response from your player bot
      "opponentResponseLegal": true        // as above, for your opponent
-  }],  
+  }]
 }
 ```
 

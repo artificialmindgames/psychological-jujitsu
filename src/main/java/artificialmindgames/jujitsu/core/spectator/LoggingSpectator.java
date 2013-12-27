@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import artificialmindgames.jujitsu.core.state.PlayState;
-import artificialmindgames.jujitsu.core.state.RoundState;
 import artificialmindgames.jujitsu.core.state.TurnState;
 
 public class LoggingSpectator implements Spectator {
@@ -14,18 +13,17 @@ public class LoggingSpectator implements Spectator {
 	@Override
 	public void log(PlayState playState, String myNickname,
 			String opponentNickname) {
-		
-		RoundState round = playState.getCurrentRound();
-		TurnState turn = round.getLastTurn();
+				
+		TurnState turn = playState.getLastTurn();
 		if (turn != null) {
 			logger.info("VC: {} -- {} bid {} won {} -- {} bid {} won {}",
 					turn.getDrawnVictoryCard(),
 					myNickname,
 					turn.getMyBid(),
-					turn.getMyPointsGained(),
+					turn.getMyCardsWon(),
 					opponentNickname,
 					turn.getOpponentBid(),
-					turn.getOpponentPointsGained());
+					turn.getOpponentCardsWon());
 		}
 	}
 

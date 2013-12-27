@@ -34,7 +34,7 @@ public class PlayerResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.TEXT_PLAIN)
     public String play(@Valid @NotNull PlayState playState) {
-    	List<Integer> cards = playState.getCurrentRound().getMyCardsRemaining();
+    	List<Integer> cards = playState.getMyCardsRemaining();
     	if (cards.isEmpty()) {
     		return Integer.toString(0);
     	}

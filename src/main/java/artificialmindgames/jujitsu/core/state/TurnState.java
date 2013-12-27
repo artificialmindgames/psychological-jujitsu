@@ -1,27 +1,52 @@
 package artificialmindgames.jujitsu.core.state;
 
+import java.util.List;
+
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class TurnState {
 
 	@Min(value=1)
-	private int drawnVictoryCard;
+	private final int drawnVictoryCard;
 	
 	@Min(value=1)
-	private int myBid;
+	private final int myBid;
 	
 	@Min(value=1)
-	private int opponentBid;
+	private final int opponentBid;
 	
-	@Min(value=0)
-	private int myPointsGained;
+	@NotNull
+	private final List<Integer> myCardsWon;
 	
-	@Min(value=0)
-	private int opponentPointsGained;
+	@NotNull
+	private final List<Integer> opponentCardsWon;
+		
+	private final boolean myResponseLegal;
 	
-	private boolean myResponseLegal;
-	
-	private boolean opponentResponseLegal;
+	private final boolean opponentResponseLegal;
+
+	@JsonCreator
+	public TurnState(
+			@JsonProperty("drawnVictoryCard") int drawnVictoryCard,
+			@JsonProperty("myBid") int myBid,
+			@JsonProperty("opponentBid") int opponentBid,
+			@JsonProperty("myCardsWon") List<Integer> myCardsWon,
+			@JsonProperty("opponentCardsWon") List<Integer> opponentCardsWon,
+			@JsonProperty("myResponseLegal") boolean myResponseLegal,
+			@JsonProperty("opponentResponseLegal") boolean opponentResponseLegal) {
+		super();
+		this.drawnVictoryCard = drawnVictoryCard;
+		this.myBid = myBid;
+		this.opponentBid = opponentBid;
+		this.myCardsWon = myCardsWon;
+		this.opponentCardsWon = opponentCardsWon;
+		this.myResponseLegal = myResponseLegal;
+		this.opponentResponseLegal = opponentResponseLegal;
+	}
 
 	public int getDrawnVictoryCard() {
 		return drawnVictoryCard;
@@ -35,12 +60,12 @@ public class TurnState {
 		return opponentBid;
 	}
 
-	public int getMyPointsGained() {
-		return myPointsGained;
+	public List<Integer> getMyCardsWon() {
+		return myCardsWon;
 	}
 
-	public int getOpponentPointsGained() {
-		return opponentPointsGained;
+	public List<Integer> getOpponentCardsWon() {
+		return opponentCardsWon;
 	}
 
 	public boolean isMyResponseLegal() {
@@ -50,5 +75,5 @@ public class TurnState {
 	public boolean isOpponentResponseLegal() {
 		return opponentResponseLegal;
 	}
-	
+
 }
