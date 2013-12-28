@@ -1,6 +1,5 @@
 package artificialmindgames.jujitsu.rest;
 
-import java.util.List;
 import java.util.Random;
 
 import javax.validation.Valid;
@@ -34,12 +33,12 @@ public class PlayerResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.TEXT_PLAIN)
     public String play(@Valid @NotNull PlayState playState) {
-    	List<Integer> cards = playState.getMyCardsRemaining();
-    	if (cards.isEmpty()) {
+    	Integer[] cards = playState.getMyCardsRemaining();
+    	if (cards.length == 0) {
     		return Integer.toString(0);
     	}
     	else {
-    		return cards.get(random.nextInt(cards.size())).toString();
+    		return cards[random.nextInt(cards.length)].toString();
     	}
     }
     

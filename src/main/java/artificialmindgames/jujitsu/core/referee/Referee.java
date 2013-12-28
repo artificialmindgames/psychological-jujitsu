@@ -1,24 +1,30 @@
 package artificialmindgames.jujitsu.core.referee;
 
-import java.util.Collection;
-import java.util.List;
-
-import artificialmindgames.jujitsu.core.player.Player;
-import artificialmindgames.jujitsu.core.spectator.Spectator;
-
-
+import artificialmindgames.jujitsu.core.match.Dealer;
+import artificialmindgames.jujitsu.core.match.InternalMatchState;
+import artificialmindgames.jujitsu.core.match.Match;
 
 public class Referee {
+	
+	private final Dealer dealer;
 
-	public void runMatch(List<Integer> match, Player player1, Player player2, Spectator spectator) {
+	public Referee(Dealer dealer) {
+		super();
+		this.dealer = dealer;
+	}
+
+	protected void runRound(InternalMatchState internalMatchState) {
 		
 	}
 	
-	public void runMatch(List<Integer> match, Player player1, Player player2, Collection<Spectator> spectators) {
-	}
-	
-	public void runMatch(List<Integer> match, Player player1, Player player2, Spectator... spectators) {
-		runMatch(match, player1, player2, spectators);
+	public void runMatch(Match match) {
+		
+		InternalMatchState internalMatchState = new InternalMatchState(match, dealer);
+		
+		for (int i = 1; i <= match.getNumberOfRounds(); i++) {
+			internalMatchState.startNextRound();
+			runRound(internalMatchState);
+		}
 	}
 
 }

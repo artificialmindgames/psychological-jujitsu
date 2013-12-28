@@ -1,7 +1,5 @@
 package artificialmindgames.jujitsu.core.state;
 
-import java.util.List;
-
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
@@ -20,10 +18,10 @@ public class TurnState {
 	private final int opponentBid;
 	
 	@NotNull
-	private final List<Integer> myCardsWon;
+	private final Integer[] myCardsWon;
 	
 	@NotNull
-	private final List<Integer> opponentCardsWon;
+	private final Integer[] opponentCardsWon;
 		
 	private final boolean myResponseLegal;
 	
@@ -34,8 +32,8 @@ public class TurnState {
 			@JsonProperty("drawnVictoryCard") int drawnVictoryCard,
 			@JsonProperty("myBid") int myBid,
 			@JsonProperty("opponentBid") int opponentBid,
-			@JsonProperty("myCardsWon") List<Integer> myCardsWon,
-			@JsonProperty("opponentCardsWon") List<Integer> opponentCardsWon,
+			@JsonProperty("myCardsWon") Integer[] myCardsWon,
+			@JsonProperty("opponentCardsWon") Integer[] opponentCardsWon,
 			@JsonProperty("myResponseLegal") boolean myResponseLegal,
 			@JsonProperty("opponentResponseLegal") boolean opponentResponseLegal) {
 		super();
@@ -60,11 +58,11 @@ public class TurnState {
 		return opponentBid;
 	}
 
-	public List<Integer> getMyCardsWon() {
+	public Integer[] getMyCardsWon() {
 		return myCardsWon;
 	}
 
-	public List<Integer> getOpponentCardsWon() {
+	public Integer[] getOpponentCardsWon() {
 		return opponentCardsWon;
 	}
 

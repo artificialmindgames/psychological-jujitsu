@@ -1,8 +1,6 @@
 package artificialmindgames.jujitsu.core.match;
 
 import java.util.Collection;
-import java.util.List;
-
 import artificialmindgames.jujitsu.core.player.Player;
 import artificialmindgames.jujitsu.core.spectator.Spectator;
 
@@ -15,7 +13,7 @@ import artificialmindgames.jujitsu.core.spectator.Spectator;
  */
 public class Match {
 	
-	List<Integer> rounds;
+	Integer[] rounds;
 	
 	Player player1;
 	
@@ -23,7 +21,11 @@ public class Match {
 	
 	Collection<Spectator> spectators;
 
-	public List<Integer> getRounds() {
+	public int getNumberOfRounds() {
+		return rounds.length;
+	}
+	
+	public Integer[] getRounds() {
 		return rounds;
 	}
 
@@ -37,6 +39,17 @@ public class Match {
 
 	public Collection<Spectator> getSpectators() {
 		return spectators;
+	}
+	
+	public int highestCardValueInMatch() {
+		int highest = rounds[0];
+		for (int i = 1; i < rounds.length; i++) {
+			int N = rounds[i];
+			if (N > highest) {
+				highest = N;
+			}
+		}
+		return highest;
 	}
 	
 }

@@ -1,6 +1,5 @@
 package artificialmindgames.jujitsu.core.match;
 
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -34,12 +33,12 @@ public class MatchMaker {
 	}
 	
 	public MatchMaker withRounds(Integer... rounds) {
-		match.rounds = Arrays.asList(rounds);
+		match.rounds = rounds;
 		return this;
 	}
 	
 	public MatchMaker withRounds(List<Integer> rounds) {
-		match.rounds = rounds;
+		match.rounds = (Integer[])rounds.toArray();
 		return this;
 	}
 	
@@ -49,8 +48,8 @@ public class MatchMaker {
 	}
 
 	public Match done() {
-		if (match.rounds == null || match.rounds.isEmpty()) {
-			match.rounds = Arrays.asList(13, 13, 13);
+		if (match.rounds == null || match.rounds.length == 0) {
+			match.rounds = new Integer[]{13, 13, 13};
 		}
 		if (match.spectators.isEmpty()) {
 			match.spectators.add(new LoggingSpectator());
