@@ -55,8 +55,8 @@ public class PlayState {
 	 */
 	public PlayState(InternalMatchState internalMatchState, boolean player1) {
 		this.match = internalMatchState.getMatch().getRounds();
-		this.myTimeRemainingMs = null;
-		this.opponentTimeRemainingMs = null;
+		this.myTimeRemainingMs = player1 ? internalMatchState.getTimeRemainingForPlayer1() : internalMatchState.getTimeRemainingForPlayer2();
+		this.opponentTimeRemainingMs = player1 ? internalMatchState.getTimeRemainingForPlayer2() : internalMatchState.getTimeRemainingForPlayer1();
 		this.myPointsTotal = player1 ? internalMatchState.getScoreForPlayer1() : internalMatchState.getScoreForPlayer2();
 		this.opponentPointsTotal = player1 ? internalMatchState.getScoreForPlayer2() : internalMatchState.getScoreForPlayer1();
 		this.currentRound = internalMatchState.getCurrentRound();

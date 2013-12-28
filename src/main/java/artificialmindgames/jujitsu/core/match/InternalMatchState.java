@@ -24,10 +24,12 @@ public class InternalMatchState {
 	
 	private int scoreForPlayer1 = 0;
 	private List<Integer> handPlayer1;
+	private Integer timeRemainingForPlayer1 = null;
 	
 	private int scoreForPlayer2 = 0;
 	private List<Integer> handPlayer2;
-
+	private Integer timeRemainingForPlayer2 = null;
+	
 	private int wonCardsPosition = 0;
 	private int nextVictoryCardIndex = 0;
 
@@ -57,6 +59,22 @@ public class InternalMatchState {
 
 	public int getScoreForPlayer2() {
 		return scoreForPlayer2;
+	}
+	
+	public Integer getTimeRemainingForPlayer1() {
+		return timeRemainingForPlayer1;
+	}
+
+	public void setTimeRemainingForPlayer1(Integer timeRemainingForPlayer1) {
+		this.timeRemainingForPlayer1 = timeRemainingForPlayer1;
+	}
+
+	public Integer getTimeRemainingForPlayer2() {
+		return timeRemainingForPlayer2;
+	}
+
+	public void setTimeRemainingForPlayer2(Integer timeRemainingForPlayer2) {
+		this.timeRemainingForPlayer2 = timeRemainingForPlayer2;
 	}
 
 	public Integer[] getHandPlayer1() {

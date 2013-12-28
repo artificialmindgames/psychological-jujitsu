@@ -69,4 +69,22 @@ public class InternalMatchStateTest {
 	    assertThat(playState2.getMyCardsRemaining()).isEqualTo(new Integer[]{1,2,3,4,5,6,7,8,9,10,11,12,13});
 	    assertThat(playState2.getOpponentCardsRemaining()).isEqualTo(new Integer[]{1,2,3,4,5,6,7,8,9,10,11,12,13});
 	}
+	
+	@Test
+	public void timeRemaining() {
+		Match match = MatchMaker.makeMeAMatch().done();
+		InternalMatchState internalMatchState = new InternalMatchState(match, mockDealer);
+			
+		internalMatchState.setTimeRemainingForPlayer1(500);
+		internalMatchState.setTimeRemainingForPlayer2(999);
+		
+		PlayState playState1 = new PlayState(internalMatchState, true);
+		assertThat(playState1.getMyTimeRemainingMs()).isEqualTo(500);
+		assertThat(playState1.getOpponentTimeRemainingMs()).isEqualTo(999);
+		
+		PlayState playState2 = new PlayState(internalMatchState, false);
+		assertThat(playState2.getMyTimeRemainingMs()).isEqualTo(999);
+		assertThat(playState2.getOpponentTimeRemainingMs()).isEqualTo(500);
+		
+	}
 }
