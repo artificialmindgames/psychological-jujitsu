@@ -140,13 +140,41 @@ public class InternalMatchState {
 		currentTurnState = new InternalTurnState(victoryCard);		
 	}
 	
-	public void bidFromPlayer1(int bid, boolean legal) {
-		currentTurnState.bidFromPlayer1(bid, legal);
+	public void bidFromPlayer1(int bid) {
+		if (handPlayer1.contains(bid)) {
+			handPlayer1.remove((Object)bid);
+			currentTurnState.bidFromPlayer1(bid, true);
+			checkEndTurn();
+		}
+		else {
+			illegalMovePlayer1();
+		}
+
+	}
+	
+	public void illegalMovePlayer1() {
+		int bid = dealer.pickRandom(handPlayer1);
+		handPlayer1.remove((Object)bid);
+		currentTurnState.bidFromPlayer1(bid, false);
 		checkEndTurn();
 	}
 	
-	public void bidFromPlayer2(int bid, boolean legal) {
-		currentTurnState.bidFromPlayer2(bid, legal);
+	public void bidFromPlayer2(int bid) {
+		if (handPlayer2.contains(bid)) {
+			handPlayer2.remove((Object)bid);
+			currentTurnState.bidFromPlayer2(bid, true);
+			checkEndTurn();
+		}
+		else {
+			illegalMovePlayer2();
+		}
+
+	}
+	
+	public void illegalMovePlayer2() {
+		int bid = dealer.pickRandom(handPlayer2);
+		handPlayer2.remove((Object)bid);
+		currentTurnState.bidFromPlayer2(bid, false);
 		checkEndTurn();
 	}
 

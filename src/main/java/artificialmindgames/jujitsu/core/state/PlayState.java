@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import artificialmindgames.jujitsu.core.match.InternalMatchState;
+import artificialmindgames.jujitsu.core.match.InternalTurnState;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -66,7 +67,11 @@ public class PlayState {
 		this.drawPile = internalMatchState.getRemainingDrawPile();
 		this.myCardsRemaining = player1 ? internalMatchState.getHandPlayer1() : internalMatchState.getHandPlayer2();
 		this.opponentCardsRemaining = player1 ? internalMatchState.getHandPlayer2() : internalMatchState.getHandPlayer1();
-		this.previousTurns = new TurnState[0];
+		this.previousTurns = new TurnState[internalMatchState.getPreviousTurns().size()];
+		for (int i = 0; i < internalMatchState.getPreviousTurns().size(); i++) {
+			InternalTurnState internalTurnState = internalMatchState.getPreviousTurns().get(i);
+			this.previousTurns[i] = new TurnState(internalTurnState, player1);
+		}
 	}
 	
 	@JsonCreator

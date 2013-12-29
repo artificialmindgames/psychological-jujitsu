@@ -88,6 +88,36 @@ public class InternalMatchStateTest {
 	}
 	
 	@Test
+	public void illegalMovePlayer1() {
+		// mock dealer to 'randomly' pick 9 in place of illegal move
+		Mockito.when(mockDealer.pickRandom(Mockito.anyListOf(Integer.class))).thenReturn(9);
+		
+		Match match = MatchMaker.makeMeAMatch().done();
+		InternalMatchState internalMatchState = new InternalMatchState(match, mockDealer);
+		
+		internalMatchState.bidFromPlayer1(14);
+		
+		Mockito.verify(mockDealer, Mockito.atLeastOnce()).pickRandom(Mockito.anyListOf(Integer.class));
+		// check that card 9 has been removed:
+		assertThat(internalMatchState.getHandPlayer1()).containsOnly(1,2,3,4,5,6,7,8, 10,11,12,13);
+	}
+	
+	@Test
+	public void illegalMovePlayer2() {
+		// mock dealer to 'randomly' pick 9 in place of illegal move
+		Mockito.when(mockDealer.pickRandom(Mockito.anyListOf(Integer.class))).thenReturn(9);
+		
+		Match match = MatchMaker.makeMeAMatch().done();
+		InternalMatchState internalMatchState = new InternalMatchState(match, mockDealer);
+		
+		internalMatchState.bidFromPlayer2(14);
+		
+		Mockito.verify(mockDealer, Mockito.atLeastOnce()).pickRandom(Mockito.anyListOf(Integer.class));
+		// check that card 9 has been removed:
+		assertThat(internalMatchState.getHandPlayer2()).containsOnly(1,2,3,4,5,6,7,8, 10,11,12,13);
+	}
+	
+	@Test
 	public void turnSequence() {
 		Match match = MatchMaker.makeMeAMatch().done();
 		InternalMatchState internalMatchState = new InternalMatchState(match, mockDealer);
@@ -100,14 +130,14 @@ public class InternalMatchStateTest {
 		assertThat(internalMatchState.getScoreForPlayer1()).isEqualTo(0);
 		assertThat(internalMatchState.getScoreForPlayer2()).isEqualTo(0);
 		assertThat(internalMatchState.getLot()).containsOnly(6);
-		internalMatchState.bidFromPlayer1(6, true);
+		internalMatchState.bidFromPlayer1(6);
 		assertThat(internalMatchState.getCurrentRound()).isEqualTo(1);
 		assertThat(internalMatchState.getCurrentTurn()).isEqualTo(1);
 		assertThat(internalMatchState.getPreviousTurns()).isEmpty();
 		assertThat(internalMatchState.getScoreForPlayer1()).isEqualTo(0);
 		assertThat(internalMatchState.getScoreForPlayer2()).isEqualTo(0);
 		assertThat(internalMatchState.getLot()).containsOnly(6);
-		internalMatchState.bidFromPlayer2(7, true);
+		internalMatchState.bidFromPlayer2(7);
 		assertThat(internalMatchState.getCurrentRound()).isEqualTo(1);
 		assertThat(internalMatchState.getCurrentTurn()).isEqualTo(2);
 		assertThat(internalMatchState.getPreviousTurns()).hasSize(1);
@@ -115,8 +145,8 @@ public class InternalMatchStateTest {
 		assertThat(internalMatchState.getScoreForPlayer2()).isEqualTo(6);
 		assertThat(internalMatchState.getLot()).containsOnly(3);
 		
-		internalMatchState.bidFromPlayer1(3, true);
-		internalMatchState.bidFromPlayer2(3, true);
+		internalMatchState.bidFromPlayer1(3);
+		internalMatchState.bidFromPlayer2(3);
 		assertThat(internalMatchState.getCurrentRound()).isEqualTo(1);
 		assertThat(internalMatchState.getCurrentTurn()).isEqualTo(3);
 		assertThat(internalMatchState.getPreviousTurns()).hasSize(2);
@@ -125,43 +155,50 @@ public class InternalMatchStateTest {
 		assertThat(internalMatchState.getLot()).containsOnly(3, 11);
 
 		// 6,3,11,2,4,7,13,8,10,9,1,5,12
-		internalMatchState.bidFromPlayer1(11, true);
-		internalMatchState.bidFromPlayer2(11, true);
-		internalMatchState.bidFromPlayer1(2, true);
-		internalMatchState.bidFromPlayer2(2, true);
-		internalMatchState.bidFromPlayer1(4, true);
-		internalMatchState.bidFromPlayer2(4, true);
-		internalMatchState.bidFromPlayer1(7, true);
-		internalMatchState.bidFromPlayer2(6, true);
+		internalMatchState.bidFromPlayer1(11);
+		internalMatchState.bidFromPlayer2(11);
+		internalMatchState.bidFromPlayer1(2);
+		internalMatchState.bidFromPlayer2(2);
+		internalMatchState.bidFromPlayer1(4);
+		internalMatchState.bidFromPlayer2(4);
+		internalMatchState.bidFromPlayer1(7);
+		internalMatchState.bidFromPlayer2(6);
 		assertThat(internalMatchState.getLot()).containsOnly(13);
-		internalMatchState.bidFromPlayer1(13, true);
-		internalMatchState.bidFromPlayer2(13, true);
-		internalMatchState.bidFromPlayer1(8, true);
-		internalMatchState.bidFromPlayer2(8, true);
-		internalMatchState.bidFromPlayer1(10, true);
-		internalMatchState.bidFromPlayer2(10, true);
-		internalMatchState.bidFromPlayer1(9, true);
-		internalMatchState.bidFromPlayer2(9, true);
-		internalMatchState.bidFromPlayer1(1, true);
-		internalMatchState.bidFromPlayer2(1, true);
-		internalMatchState.bidFromPlayer1(5, true);
-		internalMatchState.bidFromPlayer2(5, true);
+		internalMatchState.bidFromPlayer1(13);
+		internalMatchState.bidFromPlayer2(13);
+		internalMatchState.bidFromPlayer1(8);
+		internalMatchState.bidFromPlayer2(8);
+		internalMatchState.bidFromPlayer1(10);
+		internalMatchState.bidFromPlayer2(10);
+		internalMatchState.bidFromPlayer1(9);
+		internalMatchState.bidFromPlayer2(9);
+		internalMatchState.bidFromPlayer1(1);
+		internalMatchState.bidFromPlayer2(1);
+		internalMatchState.bidFromPlayer1(5);
+		internalMatchState.bidFromPlayer2(5);
 		assertThat(internalMatchState.getCurrentRound()).isEqualTo(1);
 		assertThat(internalMatchState.getCurrentTurn()).isEqualTo(13);
 		assertThat(internalMatchState.getPreviousTurns()).hasSize(12);
 		assertThat(internalMatchState.getLot()).containsOnly(1,5,8,9,10,12,13);
-		internalMatchState.bidFromPlayer1(12, true);
-		internalMatchState.bidFromPlayer2(12, true);
+		assertThat(internalMatchState.getHandPlayer1()).containsOnly(12);
+		assertThat(internalMatchState.getHandPlayer2()).containsOnly(12);
+		internalMatchState.bidFromPlayer1(12);
+		internalMatchState.bidFromPlayer2(12);
 		assertThat(internalMatchState.getCurrentRound()).isEqualTo(2);
 		assertThat(internalMatchState.getCurrentTurn()).isEqualTo(1);
 		assertThat(internalMatchState.getPreviousTurns()).hasSize(13);
 		assertThat(internalMatchState.getLot()).containsOnly(6);
-		internalMatchState.bidFromPlayer1(7, true);
-		internalMatchState.bidFromPlayer2(7, true);
+		assertThat(internalMatchState.getHandPlayer1()).containsOnly(1,2,3,4,5,6,7,8,9,10,11,12,13);
+		assertThat(internalMatchState.getHandPlayer2()).containsOnly(1,2,3,4,5,6,7,8,9,10,11,12,13);
+		internalMatchState.bidFromPlayer1(7);
+		internalMatchState.bidFromPlayer2(7);
 		assertThat(internalMatchState.getCurrentRound()).isEqualTo(2);
 		assertThat(internalMatchState.getCurrentTurn()).isEqualTo(2);
 		assertThat(internalMatchState.getPreviousTurns()).hasSize(1);
 		assertThat(internalMatchState.getLot()).containsOnly(6,3);
 
+		// check that we only used legal moves and therefore never picked a random card from a
+		// player's hand
+		Mockito.verify(mockDealer, Mockito.never()).pickRandom(Mockito.anyListOf(Integer.class));
 	}
 }

@@ -32,10 +32,19 @@ public class Dealer {
 		Collections.shuffle(deck, random);
 		return deck;
 	}
+
+	public Integer pickRandom(List<Integer> cards) {
+		if (cards.isEmpty()) {
+    		return null;
+    	}
+    	else {
+    		return cards.get(random.nextInt(cards.size()));
+    	}
+	}
 	
-	public int pickRandom(Integer[] cards) {
+	public Integer pickRandom(Integer[] cards) {
 		if (cards.length == 0) {
-    		return 0;
+    		return null;
     	}
     	else {
     		return cards[random.nextInt(cards.length)];
