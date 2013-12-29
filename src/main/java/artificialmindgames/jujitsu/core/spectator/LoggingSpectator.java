@@ -19,7 +19,12 @@ public class LoggingSpectator implements Spectator {
 		if (playState.isNewGame()) {
 			logger.info("New game between {} and {} with rounds {}", myNickname, opponentNickname, playState.getMatch());
 		}
-		else {		
+		else {
+			
+			if (playState.isNewRound()) {
+				logger.info("Starting new round with N={}", playState.getHighestCardValueThisRound());
+			}
+			
 			logger.info("VC: {} -- {} bid {} won {} -- {} bid {} won {}",
 					turn.getDrawnVictoryCard(),
 					myNickname,

@@ -116,13 +116,13 @@ public class RandomStarterBot implements PlayerStrategy {
 	
 	@Override
 	public int move(PlayState playState) {
-		Integer[] cards = playState.getMyCardsRemaining();
-    	if (cards.length == 0) {
+		
+    	if (playState.isGameEnded()) {
     		return 0;
     	}
-    	else {
-    		return cards[random.nextInt(cards.length)];
-    	}
+    	
+    	Integer[] cards = playState.getMyCardsRemaining();
+    	return cards[random.nextInt(cards.length)];
 	}
 }
 ```

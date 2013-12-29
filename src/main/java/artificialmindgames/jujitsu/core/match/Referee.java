@@ -55,7 +55,7 @@ public class Referee {
 			}
 			
 			try {
-				int bid = player2.move(new PlayState(internalMatchState, true));
+				int bid = player2.move(new PlayState(internalMatchState, false));
 				internalMatchState.bidFromPlayer2(bid);
 			}
 			catch (Exception ex) {

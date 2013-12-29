@@ -16,10 +16,12 @@ public class DrawCardStarterBot implements PlayerStrategy {
 
 	@Override
 	public int move(PlayState playState) {
+		
+    	if (playState.isGameEnded()) {
+    		return 0;
+    	}
+		
 		Integer[] lot = playState.getLot();
-		if (lot.length == 0) {
-			return 0;
-		}
 		return lot[lot.length-1];
 	}
 
