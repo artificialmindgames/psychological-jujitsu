@@ -128,7 +128,7 @@ public class RandomStarterBot implements PlayerStrategy {
 ```
 
 To create your own bots, all you have to do is implement the PlayerStrategy interface (in package artificialmindgames.jujitsu.core.player).
-You can run play strategies against each other using the Quickplay class (in package artificialmindgames.jujitsu.quickplay). You can
+You can play strategies against each other using the Quickplay class (in package artificialmindgames.jujitsu.quickplay). You can
 do this with a main class, an example of which is included in the Quickplay class:
 
 ```java
