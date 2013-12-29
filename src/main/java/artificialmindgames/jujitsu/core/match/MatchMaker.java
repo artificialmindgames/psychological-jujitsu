@@ -5,6 +5,8 @@ import java.util.List;
 
 import artificialmindgames.jujitsu.core.player.LocalPlayer;
 import artificialmindgames.jujitsu.core.player.Player;
+import artificialmindgames.jujitsu.core.player.starterbots.DrawCardStarterBot;
+import artificialmindgames.jujitsu.core.player.starterbots.RandomStarterBot;
 import artificialmindgames.jujitsu.core.spectator.LoggingSpectator;
 import artificialmindgames.jujitsu.core.spectator.Spectator;
 import artificialmindgames.jujitsu.rest.PlayerResource;
@@ -55,10 +57,10 @@ public class MatchMaker {
 			match.spectators.add(new LoggingSpectator());
 		}
 		if (match.player1 == null) {
-			match.player1 = new LocalPlayer("player1", new PlayerResource());
+			match.player1 = new LocalPlayer("player1", new DrawCardStarterBot());
 		}
 		if (match.player2 == null) {
-			match.player2 = new LocalPlayer("player2", new PlayerResource());
+			match.player2 = new LocalPlayer("player2", new DrawCardStarterBot());
 		}
 		return match;
 	}

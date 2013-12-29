@@ -1,23 +1,22 @@
 package artificialmindgames.jujitsu.core.player;
 
 import artificialmindgames.jujitsu.core.state.PlayState;
-import artificialmindgames.jujitsu.rest.PlayerResource;
 
 public class LocalPlayer implements Player {
 
 	private String nickname;
 	
-	private PlayerResource playerResource;
+	private PlayerStrategy playerStrategy;
 
-	public LocalPlayer(String nickname, PlayerResource playerResource) {
+	public LocalPlayer(String nickname, PlayerStrategy playerStrategy) {
 		super();
 		this.nickname = nickname;
-		this.playerResource = playerResource;
+		this.playerStrategy = playerStrategy;
 	}
 
 	@Override
 	public int move(PlayState playState) {
-		return Integer.parseInt(playerResource.play(playState));
+		return playerStrategy.move(playState);
 	}
 
 	@Override
