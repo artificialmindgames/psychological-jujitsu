@@ -106,7 +106,26 @@ but also to establish a baseline for your own AIs.
 
 You can find the starter bots in the package "artificialmindgames.jujitsu.core.player.starterbots"
 
-Two starter bots are provided. One picks a random card every turn. The other simply matches the victory card draw each turn.
+Two starter bots are provided. One picks a random card every turn. The other simply matches the victory card draw each turn. Here is the
+random starter bot:
+
+```java
+public class RandomStarterBot implements PlayerStrategy {
+
+	Random random = new Random();
+	
+	@Override
+	public int move(PlayState playState) {
+		Integer[] cards = playState.getMyCardsRemaining();
+    	if (cards.length == 0) {
+    		return 0;
+    	}
+    	else {
+    		return cards[random.nextInt(cards.length)];
+    	}
+	}
+}
+```
 
 To create your own bots, all you have to do is implement the PlayerStrategy interface (in package artificialmindgames.jujitsu.core.player).
 You can run play strategies against each other using the Quickplay class (in package artificialmindgames.jujitsu.quickplay). You can
