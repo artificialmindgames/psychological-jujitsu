@@ -60,7 +60,7 @@ public class PlayState {
 		this.myPointsTotal = player1 ? internalMatchState.getScoreForPlayer1() : internalMatchState.getScoreForPlayer2();
 		this.opponentPointsTotal = player1 ? internalMatchState.getScoreForPlayer2() : internalMatchState.getScoreForPlayer1();
 		this.currentRound = internalMatchState.getCurrentRound();
-		this.gameEnded = false;
+		this.gameEnded = internalMatchState.isMatchFinished();
 		this.lot = internalMatchState.getLot();
 		this.nextVictoryCard = internalMatchState.getNextVictoryCard();
 		this.drawPile = internalMatchState.getRemainingDrawPile();

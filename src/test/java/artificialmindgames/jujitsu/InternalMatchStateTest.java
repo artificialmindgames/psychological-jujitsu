@@ -33,7 +33,7 @@ public class InternalMatchStateTest {
 	    
 	    mockDealer = Mockito.mock(Dealer.class);
 	    List<Integer> shuffledDeck = Arrays.asList(6,3,11,2,4,7,13,8,10,9,1,5,12);
-	    Mockito.when(mockDealer.shuffle(Mockito.anyListOf(Integer.class))).thenReturn(shuffledDeck);
+	    Mockito.when(mockDealer.createShuffledDeck(13)).thenReturn(shuffledDeck);
 	}
 	
 	@Test
@@ -84,7 +84,84 @@ public class InternalMatchStateTest {
 		
 		PlayState playState2 = new PlayState(internalMatchState, false);
 		assertThat(playState2.getMyTimeRemainingMs()).isEqualTo(999);
-		assertThat(playState2.getOpponentTimeRemainingMs()).isEqualTo(500);
+		assertThat(playState2.getOpponentTimeRemainingMs()).isEqualTo(500);		
+	}
+	
+	@Test
+	public void turnSequence() {
+		Match match = MatchMaker.makeMeAMatch().done();
+		InternalMatchState internalMatchState = new InternalMatchState(match, mockDealer);
 		
+		//PlayState playState1 = new PlayState(internalMatchState, true);
+		
+		assertThat(internalMatchState.getCurrentRound()).isEqualTo(1);
+		assertThat(internalMatchState.getCurrentTurn()).isEqualTo(1);
+		assertThat(internalMatchState.getPreviousTurns()).isEmpty();
+		assertThat(internalMatchState.getScoreForPlayer1()).isEqualTo(0);
+		assertThat(internalMatchState.getScoreForPlayer2()).isEqualTo(0);
+		assertThat(internalMatchState.getLot()).containsOnly(6);
+		internalMatchState.bidFromPlayer1(6, true);
+		assertThat(internalMatchState.getCurrentRound()).isEqualTo(1);
+		assertThat(internalMatchState.getCurrentTurn()).isEqualTo(1);
+		assertThat(internalMatchState.getPreviousTurns()).isEmpty();
+		assertThat(internalMatchState.getScoreForPlayer1()).isEqualTo(0);
+		assertThat(internalMatchState.getScoreForPlayer2()).isEqualTo(0);
+		assertThat(internalMatchState.getLot()).containsOnly(6);
+		internalMatchState.bidFromPlayer2(7, true);
+		assertThat(internalMatchState.getCurrentRound()).isEqualTo(1);
+		assertThat(internalMatchState.getCurrentTurn()).isEqualTo(2);
+		assertThat(internalMatchState.getPreviousTurns()).hasSize(1);
+		assertThat(internalMatchState.getScoreForPlayer1()).isEqualTo(0);
+		assertThat(internalMatchState.getScoreForPlayer2()).isEqualTo(6);
+		assertThat(internalMatchState.getLot()).containsOnly(3);
+		
+		internalMatchState.bidFromPlayer1(3, true);
+		internalMatchState.bidFromPlayer2(3, true);
+		assertThat(internalMatchState.getCurrentRound()).isEqualTo(1);
+		assertThat(internalMatchState.getCurrentTurn()).isEqualTo(3);
+		assertThat(internalMatchState.getPreviousTurns()).hasSize(2);
+		assertThat(internalMatchState.getScoreForPlayer1()).isEqualTo(0);
+		assertThat(internalMatchState.getScoreForPlayer2()).isEqualTo(6);
+		assertThat(internalMatchState.getLot()).containsOnly(3, 11);
+
+		// 6,3,11,2,4,7,13,8,10,9,1,5,12
+		internalMatchState.bidFromPlayer1(11, true);
+		internalMatchState.bidFromPlayer2(11, true);
+		internalMatchState.bidFromPlayer1(2, true);
+		internalMatchState.bidFromPlayer2(2, true);
+		internalMatchState.bidFromPlayer1(4, true);
+		internalMatchState.bidFromPlayer2(4, true);
+		internalMatchState.bidFromPlayer1(7, true);
+		internalMatchState.bidFromPlayer2(6, true);
+		assertThat(internalMatchState.getLot()).containsOnly(13);
+		internalMatchState.bidFromPlayer1(13, true);
+		internalMatchState.bidFromPlayer2(13, true);
+		internalMatchState.bidFromPlayer1(8, true);
+		internalMatchState.bidFromPlayer2(8, true);
+		internalMatchState.bidFromPlayer1(10, true);
+		internalMatchState.bidFromPlayer2(10, true);
+		internalMatchState.bidFromPlayer1(9, true);
+		internalMatchState.bidFromPlayer2(9, true);
+		internalMatchState.bidFromPlayer1(1, true);
+		internalMatchState.bidFromPlayer2(1, true);
+		internalMatchState.bidFromPlayer1(5, true);
+		internalMatchState.bidFromPlayer2(5, true);
+		assertThat(internalMatchState.getCurrentRound()).isEqualTo(1);
+		assertThat(internalMatchState.getCurrentTurn()).isEqualTo(13);
+		assertThat(internalMatchState.getPreviousTurns()).hasSize(12);
+		assertThat(internalMatchState.getLot()).containsOnly(1,5,8,9,10,12,13);
+		internalMatchState.bidFromPlayer1(12, true);
+		internalMatchState.bidFromPlayer2(12, true);
+		assertThat(internalMatchState.getCurrentRound()).isEqualTo(2);
+		assertThat(internalMatchState.getCurrentTurn()).isEqualTo(1);
+		assertThat(internalMatchState.getPreviousTurns()).hasSize(13);
+		assertThat(internalMatchState.getLot()).containsOnly(6);
+		internalMatchState.bidFromPlayer1(7, true);
+		internalMatchState.bidFromPlayer2(7, true);
+		assertThat(internalMatchState.getCurrentRound()).isEqualTo(2);
+		assertThat(internalMatchState.getCurrentTurn()).isEqualTo(2);
+		assertThat(internalMatchState.getPreviousTurns()).hasSize(1);
+		assertThat(internalMatchState.getLot()).containsOnly(6,3);
+
 	}
 }

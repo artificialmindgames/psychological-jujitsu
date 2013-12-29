@@ -1,8 +1,5 @@
 package artificialmindgames.jujitsu.core.match;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-
 public class InternalTurnState {
 
 	private final int drawnVictoryCard;
@@ -21,8 +18,8 @@ public class InternalTurnState {
 	}
 	
 	public void bidFromPlayer1(int bid, boolean legal) {
-		bidPlayer1 = bid;
 		responseLegalPlayer1 = legal;
+		bidPlayer1 = bid;
 	}
 	
 	public void wonByPlayer1(Integer[] lot) {
@@ -31,8 +28,8 @@ public class InternalTurnState {
 	}
 	
 	public void bidFromPlayer2(int bid, boolean legal) {
-		bidPlayer2 = bid;
 		responseLegalPlayer2 = legal;
+		bidPlayer2 = bid;		
 	}
 	
 	public void wonByPlayer2(Integer[] lot) {
@@ -68,4 +65,23 @@ public class InternalTurnState {
 		return responseLegalPlayer2;
 	}
 	
+	public boolean isTurnFinished() {
+		return bidPlayer1 > 0 && bidPlayer2 > 0;
+	}
+	
+	public int getPointsWonPlayer1() {
+		int points = 0;
+		for (int i = 0; i < cardsWonPlayer1.length; i++) {
+			points += cardsWonPlayer1[i];
+		}
+		return points;
+	}
+	
+	public int getPointsWonPlayer2() {
+		int points = 0;
+		for (int i = 0; i < cardsWonPlayer2.length; i++) {
+			points += cardsWonPlayer2[i];
+		}
+		return points;
+	}
 }

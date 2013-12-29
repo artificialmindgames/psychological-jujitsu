@@ -1,5 +1,6 @@
 package artificialmindgames.jujitsu.core.match;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -20,15 +21,16 @@ public class Dealer {
 	
 	/**
 	 * 
-	 * shuffles the cards. This function may modify the cards parameter or
-	 * return a new object reference
-	 * 
-	 * @param cards to shuffle
-	 * @return shuffled cards (may be same or different reference)
+	 * provides a shuffled deck of cards valued 1..highestCardValue
+	 *
 	 */
-	public List<Integer> shuffle(List<Integer> cards) {
-		Collections.shuffle(cards, random);
-		return cards;
+	public List<Integer> createShuffledDeck(int highestCardValue) {
+		List<Integer> deck = new ArrayList<>(highestCardValue+1);
+		for (int i = 1; i <= highestCardValue; i++) {
+			deck.add(i);
+		}
+		Collections.shuffle(deck, random);
+		return deck;
 	}
 	
 	public int pickRandom(Integer[] cards) {

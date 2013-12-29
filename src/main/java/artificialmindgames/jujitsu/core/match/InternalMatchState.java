@@ -19,6 +19,7 @@ public class InternalMatchState {
 	private List<Integer> drawPile;
 	
 	private int currentRound = 0;
+	private int currentTurn = 0;
 	
 	private int highestValueCardThisRound = 0;
 	
@@ -31,13 +32,15 @@ public class InternalMatchState {
 	private Integer timeRemainingForPlayer2 = null;
 	
 	private int wonCardsPosition = 0;
-	private int nextVictoryCardIndex = 0;
+	
+	private List<InternalTurnState> previousTurns;
+	private InternalTurnState currentTurnState;
 
 	public InternalMatchState(Match match, Dealer dealer) {
 		super();
 		this.match = match;
 		this.dealer = dealer;
-		drawPile = new ArrayList<>(match.highestCardValueInMatch()+1);
+		previousTurns = new ArrayList<>(match.highestCardValueInMatch());
 		startNextRound();
 	}
 
@@ -47,6 +50,10 @@ public class InternalMatchState {
 
 	public int getCurrentRound() {
 		return currentRound;
+	}
+	
+	public int getCurrentTurn() {
+		return currentTurn;
 	}
 
 	public int getHighestValueCardThisRound() {
@@ -86,32 +93,97 @@ public class InternalMatchState {
 	}
 
 	public Integer[] getLot() {
-		return drawPile.subList(wonCardsPosition, nextVictoryCardIndex).toArray(new Integer[nextVictoryCardIndex-wonCardsPosition]);
+		return drawPile.subList(wonCardsPosition, currentTurn).toArray(new Integer[currentTurn-wonCardsPosition]);
 	}
 	
 	public Integer[] getRemainingDrawPile() {
-		Integer[] remainingDrawPile = drawPile.subList(nextVictoryCardIndex, drawPile.size()).toArray(new Integer[drawPile.size()-nextVictoryCardIndex]);
+		Integer[] remainingDrawPile = drawPile.subList(currentTurn, drawPile.size()).toArray(new Integer[drawPile.size()-currentTurn]);
 		Arrays.sort(remainingDrawPile);
 		return remainingDrawPile;
 	}
 	
 	public Integer getNextVictoryCard() {		
-		return nextVictoryCardIndex < drawPile.size() ? drawPile.get(nextVictoryCardIndex) : null;
+		return currentTurn < drawPile.size() ? drawPile.get(currentTurn) : null;
+	}
+	
+	public List<InternalTurnState> getPreviousTurns() {
+		return previousTurns;
 	}
 
 	public void startNextRound() {
-		currentRound++;
-		if (!drawPile.isEmpty()) {
-			drawPile.clear();
-		}		
+		currentRound++;	
 		wonCardsPosition = 0;
-		nextVictoryCardIndex = 1;
+		currentTurn = 0;
 		highestValueCardThisRound = match.getRounds()[currentRound-1];
+		handPlayer1 = new LinkedList<Integer>();
+		handPlayer2 = new LinkedList<Integer>();
 		for (int i = 1; i <= highestValueCardThisRound; i++) {
-			drawPile.add(i);
+			handPlayer1.add(i);
+			handPlayer2.add(i);
 		}
-		handPlayer1 = new LinkedList<Integer>(drawPile);
-		handPlayer2 = new LinkedList<Integer>(drawPile);
-		drawPile = dealer.shuffle(drawPile);
+		drawPile = dealer.createShuffledDeck(highestValueCardThisRound);
+		startNextTurn();
 	}
+	
+	public void startNextTurn() {
+		// clear previous round's array of turn information before turn 2 (it is kept
+		// in turn 1 so as to provide the final result of the previous round)
+		if (currentTurn == 1) {
+			previousTurns.clear();
+		}
+		
+		int victoryCard = drawPile.get(currentTurn);
+		currentTurn++;
+		if (currentTurnState != null) {
+			previousTurns.add(currentTurnState);
+		}
+		currentTurnState = new InternalTurnState(victoryCard);		
+	}
+	
+	public void bidFromPlayer1(int bid, boolean legal) {
+		currentTurnState.bidFromPlayer1(bid, legal);
+		checkEndTurn();
+	}
+	
+	public void bidFromPlayer2(int bid, boolean legal) {
+		currentTurnState.bidFromPlayer2(bid, legal);
+		checkEndTurn();
+	}
+
+	public boolean isRoundFinished() {
+		return currentTurn == getHighestValueCardThisRound() && isTurnFinished();
+	}
+	
+	public boolean isMatchFinished() {
+		return isRoundFinished() && currentRound == match.getNumberOfRounds();
+	}
+
+	private boolean isTurnFinished() {
+		return currentTurnState.isTurnFinished();
+	}
+	
+	private void checkEndTurn() {
+		if (isTurnFinished()) {
+			if (currentTurnState.getBidPlayer1() > currentTurnState.getBidPlayer2()) {
+				currentTurnState.wonByPlayer1(getLot());
+				scoreForPlayer1 += currentTurnState.getPointsWonPlayer1();
+				wonCardsPosition = currentTurn;
+			}
+			else if (currentTurnState.getBidPlayer1() < currentTurnState.getBidPlayer2()) {
+				currentTurnState.wonByPlayer2(getLot());
+				scoreForPlayer2 += currentTurnState.getPointsWonPlayer2();
+				wonCardsPosition = currentTurn;
+			}
+			
+			if (!isMatchFinished()) {
+				if (isRoundFinished()) {
+					startNextRound();
+				}
+				else {
+					startNextTurn();	
+				}
+			}
+ 		}
+	}
+	
 }
