@@ -106,7 +106,7 @@ but also to establish a baseline for your own AIs.
 
 You can find the starter bots in the package "artificialmindgames.jujitsu.core.player.starterbots"
 
-Two starter bots are provided. One picks a random card every turn. The other simply matches the victory card draw each turn. Here is the
+Two starter bots are provided. One picks a random card every turn. The other simply matches the victory card drawn each turn. Here is the
 random starter bot:
 
 ```java
