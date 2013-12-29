@@ -15,7 +15,11 @@ public class LoggingSpectator implements Spectator {
 			String opponentNickname) {
 				
 		TurnState turn = playState.getLastTurn();
-		if (turn != null) {
+		
+		if (playState.isNewGame()) {
+			logger.info("New game between {} and {} with rounds {}", myNickname, opponentNickname, playState.getMatch());
+		}
+		else {		
 			logger.info("VC: {} -- {} bid {} won {} -- {} bid {} won {}",
 					turn.getDrawnVictoryCard(),
 					myNickname,
@@ -24,6 +28,15 @@ public class LoggingSpectator implements Spectator {
 					opponentNickname,
 					turn.getOpponentBid(),
 					turn.getOpponentCardsWon());
+		}
+		
+		if (playState.isGameEnded()) {
+			logger.info("Game ended. {} got {} points and {} got {} points",
+					myNickname,
+					playState.getMyPointsTotal(),
+					opponentNickname,
+					playState.getOpponentPointsTotal());
+					
 		}
 	}
 

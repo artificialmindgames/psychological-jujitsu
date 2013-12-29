@@ -60,7 +60,7 @@ public class MatchMaker {
 			match.player1 = new LocalPlayer("player1", new DrawCardStarterBot());
 		}
 		if (match.player2 == null) {
-			match.player2 = new LocalPlayer("player2", new DrawCardStarterBot());
+			match.player2 = new LocalPlayer("player2", new RandomStarterBot());
 		}
 		return match;
 	}

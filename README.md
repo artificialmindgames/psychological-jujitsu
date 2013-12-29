@@ -98,6 +98,34 @@ request to the players to show them how the game ended, although no move is nece
 
 A single game broker will only ever expect a player bot to play one game at a time.
 
+Starter Bots (Java)
+-------------------
+
+The reference implementation of 'Pyschological Jujitsu' is written in Java and provides some starter AIs, used to test the game logic internally,
+but also to establish a baseline for your own AIs.
+
+You can find the starter bots in the package "artificialmindgames.jujitsu.core.player.starterbots"
+
+Two starter bots are provided. One picks a random card every turn. The other simply matches the victory card draw each turn.
+
+To create your own bots, all you have to do is implement the PlayerStrategy interface (in package artificialmindgames.jujitsu.core.player).
+You can run play strategies against each other using the Quickplay class (in package artificialmindgames.jujitsu.quickplay). You can
+do this with a main class, an example of which is included in the Quickplay class:
+
+```java
+	public static void main(String[] args) throws Exception {
+		Quickplay.play(new DrawCardStarterBot(), new RandomStarterBot());
+	}
+```
+
+Or if you want to customize the number of cards and rounds:
+
+```java
+	public static void main(String[] args) throws Exception {
+		Quickplay.play(new DrawCardStarterBot(), new RandomStarterBot(), 5, 6, 7);
+	}
+```
+
 Security
 --------
 
