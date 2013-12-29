@@ -126,6 +126,8 @@ Or if you want to customize the number of cards and rounds:
 	}
 ```
 
+This would pit these two bots against each other with a match of three rounds of 5 then 6 then 7 cards, i.e. [5,6,7].
+
 Security
 --------
 
